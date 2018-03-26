@@ -1,0 +1,7 @@
+# From https://help.github.com/articles/about-codeowners/
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes prescedence, 
+# @global-owner1 and @global-owner2 will be requested for 
+# review when someone opens a pull request 
+*     @vertikoff @jlongc12 @mackenna95 @mlp6 @suyashkumar
