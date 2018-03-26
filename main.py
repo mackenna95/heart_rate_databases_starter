@@ -1,7 +1,14 @@
 from pymodm import connect
 import models
 import datetime
+connect("mongodb://localhost:27017/heart_rate_app")  # open up connection to db
 
+def get_info(email, heart_rate, time):
+    """
+    Gets heart_rate measurements from the user specified by email.
+    :param email: str email of the user
+    """
+    user = models.User.objects.raw({"_id": email}).first()  # Get the first user where _id=email
 
 def add_heart_rate(email, heart_rate, time):
     """
@@ -15,7 +22,6 @@ def add_heart_rate(email, heart_rate, time):
     user.heart_rate.append(heart_rate)  # Append the heart_rate to the user's list of heart rates
     user.heart_rate_times.append(time)  # append the current time to the user's list of heart rate times
     user.save()  # save the user to the database
-
 
 def create_user(email, age, heart_rate, time):
     """
@@ -31,7 +37,6 @@ def create_user(email, age, heart_rate, time):
     u.heart_rate_times.append(time)  # add initial heart rate time
     u.save()  # save the user to the database
 
-
 def print_user(email):
     """
     Prints the user with the specified email
@@ -44,7 +49,6 @@ def print_user(email):
     print(user.heart_rate_times)
 
 if __name__ == "__main__":
-    connect("mongodb://localhost:27017/heart_rate_app")  # open up connection to db
     create_user(email="suyash@suyashkumar.com", age=24, heart_rate=60, time=datetime.datetime.now())  # we should only do this once, otherwise will overwrite existing user
     add_heart_rate("suyash@suyashkumar.com", 60, datetime.datetime.now())
     print_user("suyash@suyashkumar.com")
