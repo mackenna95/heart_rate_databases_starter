@@ -1,5 +1,6 @@
 from pymodm import fields, MongoModel
 
+
 class User(MongoModel):
     # because primary_key is True, we will need
     # to query this field using the label _id
