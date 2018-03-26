@@ -36,9 +36,9 @@ def heart_rate():
         return 400
     try:
         if isinstance(r['heart_rate'], int):
-            a=1
+            a = 1
         elif isinstance(r['heart_rate'], float):
-            a=1
+            a = 1
         else:
             raise TypeError("TypeError: heart_rate is not a sting")
             return 400
@@ -48,24 +48,14 @@ def heart_rate():
         return 400
 
     try:
-        add_heart_rate(r['user_email'], r['heart_rate'], datetime.datetime.now())
+        add_heart_rate(r['user_email'], r['heart_rate'],
+                       datetime.datetime.now())
     except Exception:
-        create_user(r['user_email'], r['user_age'], r['heart_rate'], datetime.datetime.now())
+        create_user(r['user_email'], r['user_age'],
+                    r['heart_rate'], datetime.datetime.now())
 
     message = {
         "message": "Post Completed",
-    }
-    return jsonify(message), 200
-    
-@app.route("/api/heart_rate2", methods=["POST"])
-def heart_rate2():
-    # """
-    # Returns sum of a and b to the caller
-    # """
-
-    r = request.get_json()  # parses the POST request body as JSON
-    message = {
-        "message": r['user_email'],
     }
     return jsonify(message), 200
 
