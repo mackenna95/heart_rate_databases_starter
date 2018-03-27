@@ -3,6 +3,7 @@ import math
 from main import get_info, add_heart_rate, create_user, print_user
 import datetime
 import numpy
+from dateutil.parser import parse
 app = Flask(__name__)
 
 
@@ -127,15 +128,51 @@ def averageHeartRate(user_email):
 
 
 @app.route("/api/heart_rate/interval_average", methods=["POST"])
-def distance():
+def intervalAverage():
     """
-    Returns distance between a and b to the caller as JSON
+    Returns the average heart rate over a specified time for
+    specified user as JSON
+    :param email: str email of the new user
     """
+    import logging
+    logging.basicConfig(filename="server_log.txt",
+                        format='%(asctime)s %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
+
     r = request.get_json()  # parses the POST request body as JSON
-    dist = math.sqrt((r["a"][0]-r["b"][0])*(r["a"][0]-r["b"][0]))
-    dist_return = {
-        "distance": dist,
-        "a": r["a"],
-        "b": r["b"]
+
+    try:
+        user_time = parse(r['heart_rate_average_since'])
+    except ValueError:
+        logging.debug('Incorrect data format, should be YYYY-MM-DD HH.MM.SS.')
+        message = {
+            "ValueError": "Incorrect data format, should be YYYY-MM-DD HH.MM.SS.",
+        }
+        return jsonify(message), 400
+    except KeyError:
+        logging.debug('KeyError: incorrect heart_rate_average_since key')
+        message = {
+            "KeyError": "Incorrect heart_rate_average_since key",
+        }
+        return jsonify(message), 400
+
+    try:
+        user_info = get_info(r['user_email'])
+    except Exception:
+        logging.debug('Error: Ueser does not exist')
+        # raise Exception("Error: User does not exist")
+        message = {
+            "Error": "User does not exist",
+        }
+        return jsonify(message), 400
+
+    inds = [i for i, x in enumerate(user_info.heart_rate_times) if x >= user_time]
+    heart_rate_avg = numpy.average([user_info.heart_rate[i] for i in inds])
+    average_heart_rate_times = [user_info.heart_rate_times[i] for i in inds]
+
+    user_info_return = {
+        "user_email": user_info.email,
+        "heart_rate_average_times": average_heart_rate_times,
+        "average_heart_rate": heart_rate_avg,
     }
-    return jsonify(dist_return), 200
+    return jsonify(user_info_return), 200
