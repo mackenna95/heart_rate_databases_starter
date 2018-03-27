@@ -19,5 +19,5 @@ def test_max_adjacent():
     assert user_info.heart_rate == [55, 60]
 
     tachycardia = check_tachycardia(101, 23)
-    assert tachycardia == True
+    assert if tachycardia is True:
     return
