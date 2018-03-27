@@ -2,14 +2,19 @@ from flask import Flask, jsonify, request
 import math
 from main import get_info, add_heart_rate, create_user, print_user
 import datetime
+import numpy
 app = Flask(__name__)
 
 
 @app.route("/api/heart_rate", methods=["POST"])
 def heart_rate():
-    # """
-    # Returns sum of a and b to the caller
-    # """
+    """
+    Adds heart rate to dictionary related to user email
+    Creates new user if user does not exist
+    :param email: str email of the new user
+    :param age: number age of the new user
+    :param heart_rate: number initial heart_rate of this new user
+    """
 
     r = request.get_json()  # parses the POST request body as JSON
 
@@ -63,29 +68,62 @@ def heart_rate():
 @app.route("/api/heart_rate/<user_email>", methods=["GET"])
 def allHeartRate(user_email):
     """
-    Returns the hello_name dictionary below to the caller as JSON
+    Returns the heart rate and times for specified user as JSON
+    :param email: str email of the new user
     """
-    message = []
-    message.append("Hello there ")
-    hello_name = {
-        "message": message,
+    import logging
+    logging.basicConfig(filename="server_log.txt",
+                        format='%(asctime)s %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
+
+    try: 
+        user_info = get_info(user_email)
+    except Exception:
+        logging.debug('Error: Ueser does not exist')
+        # raise Exception("Error: User does not exist")
+        message = {
+            "Error": "User does not exist",
+        }
+        return jsonify(message), 400
+
+    user_info_return = {
+        "user_email": user_info.email,
+        "heart_rate": user_info.heart_rate,
+        "date_time": user_info.heart_rate_times,
     }
-    return jsonify(hello_name), 200
+    return jsonify(user_info_return), 200
 
 
 @app.route("/api/heart_rate/average/<user_email>", methods=["GET"])
 def averageHeartRate(user_email):
     """
-    Returns the hello_name dictionary below to the caller as JSON
+    Returns the average heart rate and times for specified user as JSON
+    :param email: str email of the new user
     """
-    message = []
-    message.append("Hello there ")
-    message.append(name)
-    message = ''.join(message)
-    hello_name = {
-        "message": message,
+    import logging
+    logging.basicConfig(filename="server_log.txt",
+                        format='%(asctime)s %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
+
+    try: 
+        user_info = get_info(user_email)
+    except Exception:
+        logging.debug('Error: Ueser does not exist')
+        # raise Exception("Error: User does not exist")
+        message = {
+            "Error": "User does not exist",
+        }
+        return jsonify(message), 400
+
+    ind = len(user_info.heart_rate_times) - 1
+    heart_rate_avg = numpy.average(user_info.heart_rate)
+    user_info_return = {
+        "user_email": user_info.email,
+        "average_heart_rate": heart_rate_avg,
+        "date_time_span": [user_info.heart_rate_times[0], 
+                           user_info.heart_rate_times[ind]],
     }
-    return jsonify(hello_name), 200
+    return jsonify(user_info_return), 200
 
 
 @app.route("/api/heart_rate/interval_average", methods=["POST"])
