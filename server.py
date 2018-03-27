@@ -171,9 +171,72 @@ def intervalAverage():
     heart_rate_avg = numpy.average([user_info.heart_rate[i] for i in inds])
     average_heart_rate_times = [user_info.heart_rate_times[i] for i in inds]
 
+    #Tachycardia
+    if user_info.age <= 2/365:
+        if heart_rate_avg > 159:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 6/365:
+        if heart_rate_avg > 166:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 3/52:
+        if heart_rate_avg > 182:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 2/12:
+        if heart_rate_avg > 179:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 5/12:
+        if heart_rate_avg > 186:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 11/12:
+        if heart_rate_avg > 169:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 2:
+        if heart_rate_avg > 151:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 4:
+        if heart_rate_avg > 137:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 7:
+        if heart_rate_avg > 133:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 11:
+        if heart_rate_avg > 130:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif user_info.age <= 15:
+        if heart_rate_avg > 119:
+            tachycardia = True
+        else:
+            tachycardia = False
+    else:
+        if heart_rate_avg > 100:
+            tachycardia = True
+        else:
+            tachycardia = False
+
     user_info_return = {
         "user_email": user_info.email,
         "heart_rate_average_times": average_heart_rate_times,
         "average_heart_rate": heart_rate_avg,
+        "Tachycardia": tachycardia,
     }
     return jsonify(user_info_return), 200
