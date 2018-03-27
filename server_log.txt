@@ -1,0 +1,10 @@
+03/27/2018 12:40:18 PM 127.0.0.1 - - [27/Mar/2018 12:40:18] "POST /api/heart_rate HTTP/1.1" 200 -
+03/27/2018 12:40:47 PM 127.0.0.1 - - [27/Mar/2018 12:40:47] "GET /api/heart_rate/suyash@suyashkumar.com HTTP/1.1" 500 -
+03/27/2018 12:41:54 PM 127.0.0.1 - - [27/Mar/2018 12:41:54] "POST /api/heart_rate HTTP/1.1" 200 -
+03/27/2018 12:41:58 PM 127.0.0.1 - - [27/Mar/2018 12:41:58] "GET /api/heart_rate/suyash@suyashkumar.com HTTP/1.1" 500 -
+03/27/2018 12:48:06 PM 127.0.0.1 - - [27/Mar/2018 12:48:06] "POST /api/heart_rate HTTP/1.1" 200 -
+03/27/2018 12:48:10 PM 127.0.0.1 - - [27/Mar/2018 12:48:10] "GET /api/heart_rate/suyash@suyashkumar.com HTTP/1.1" 200 -
+03/27/2018 12:51:26 PM 127.0.0.1 - - [27/Mar/2018 12:51:26] "GET /api/heart_rate/suya@suyashkumar.com HTTP/1.1" 500 -
+03/27/2018 12:54:06 PM 127.0.0.1 - - [27/Mar/2018 12:54:06] "GET /api/heart_rate/suya@suyashkumar.com HTTP/1.1" 500 -
+03/27/2018 12:54:25 PM 127.0.0.1 - - [27/Mar/2018 12:54:25] "GET /api/heart_rate/suya@suyashkumar.com HTTP/1.1" 500 -
+03/27/2018 01:04:11 PM 127.0.0.1 - - [27/Mar/2018 13:04:11] "GET /api/heart_rate/suya@suyashkumar.com HTTP/1.1" 400 -
