@@ -171,7 +171,7 @@ def intervalAverage():
     heart_rate_avg = numpy.average([user_info.heart_rate[i] for i in inds])
     average_heart_rate_times = [user_info.heart_rate_times[i] for i in inds]
 
-    #Tachycardia
+    # Tachycardia
     if user_info.age <= 2/365:
         if heart_rate_avg > 159:
             tachycardia = True
