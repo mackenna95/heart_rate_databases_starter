@@ -46,3 +46,14 @@
 03/27/2018 04:13:50 PM 127.0.0.1 - - [27/Mar/2018 16:13:50] "POST /api/heart_rate/interval_average HTTP/1.1" 500 -
 03/27/2018 04:14:53 PM 127.0.0.1 - - [27/Mar/2018 16:14:53] "POST /api/heart_rate/interval_average HTTP/1.1" 200 -
 03/27/2018 04:31:53 PM 127.0.0.1 - - [27/Mar/2018 16:31:53] "POST /api/heart_rate/interval_average HTTP/1.1" 200 -
+03/27/2018 04:43:43 PM 127.0.0.1 - - [27/Mar/2018 16:43:43] "POST /api/heart_rate HTTP/1.1" 200 -
+03/27/2018 04:43:50 PM 127.0.0.1 - - [27/Mar/2018 16:43:50] "POST /api/heart_rate HTTP/1.1" 200 -
+03/27/2018 04:44:00 PM 127.0.0.1 - - [27/Mar/2018 16:44:00] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:44:28 PM 127.0.0.1 - - [27/Mar/2018 16:44:28] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:44:33 PM 127.0.0.1 - - [27/Mar/2018 16:44:33] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:44:44 PM 127.0.0.1 - - [27/Mar/2018 16:44:44] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:45:38 PM 127.0.0.1 - - [27/Mar/2018 16:45:38] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:46:19 PM 127.0.0.1 - - [27/Mar/2018 16:46:19] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:46:54 PM 127.0.0.1 - - [27/Mar/2018 16:46:54] "POST /api/heart_rate HTTP/1.1" 400 -
+03/27/2018 04:51:42 PM 127.0.0.1 - - [27/Mar/2018 16:51:42] "POST /api/heart_rate HTTP/1.1" 200 -
+03/27/2018 04:51:47 PM 127.0.0.1 - - [27/Mar/2018 16:51:47] "POST /api/heart_rate/interval_average HTTP/1.1" 200 -

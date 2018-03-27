@@ -16,6 +16,8 @@ def heart_rate():
     :param email: str email of the new user
     :param age: number age of the new user
     :param heart_rate: number initial heart_rate of this new user
+    :returns message: json indicating either
+    job complete, KeyError, TypeError
     """
 
     r = request.get_json()  # parses the POST request body as JSON
@@ -27,37 +29,53 @@ def heart_rate():
 
     try:
         if not isinstance(r['user_email'], str):
-            raise TypeError("TypeError: user_email is not a sting")
-            return 400
+            logging.debug('TypeError: user_email is not a string')
+            message = {
+                "TypeError": "User_email is not a string",
+            }
+            return jsonify(message), 400
     except KeyError:
         logging.debug('KeyError: incorrect user_email key')
-        raise KeyError("KeyError: incorrect user_email key")
-        return 400
+        message = {
+            "KeyError": "Incorrect user_email key",
+        }
+        return jsonify(message), 400
     try:
         if not isinstance(r['user_age'], int):
-            raise TypeError("TypeError: user_age is not a sting")
-            return 400
+            logging.debug('TypeError: user_age is not an int')
+            message = {
+                "TypeError": "User_age is not an int",
+            }
+            return jsonify(message), 400
     except KeyError:
         logging.debug('KeyError: incorrect user_age key')
-        raise KeyError("KeyError: incorrect user_age key")
-        return 400
+        message = {
+            "KeyError": "Incorrect user_age key",
+        }
+        return jsonify(message), 400
     try:
         if isinstance(r['heart_rate'], int):
             a = 1
         elif isinstance(r['heart_rate'], float):
             a = 1
         else:
-            raise TypeError("TypeError: heart_rate is not a sting")
-            return 400
+            logging.debug('TypeError: Heart_rate is not an int/float')
+            message = {
+                "TypeError": "Heart_rate is not an int or float",
+            }
+            return jsonify(message), 400
     except KeyError:
         logging.debug('KeyError: incorrect heart_rate key')
-        raise KeyError("KeyError: incorrect heart_rate key")
-        return 400
+        message = {
+            "KeyError": "Incorrect heart_rate key",
+        }
+        return jsonify(message), 400
 
     try:
         add_heart_rate(r['user_email'], r['heart_rate'],
                        datetime.datetime.now())
     except Exception:
+        logging.debug('ExceptionError: new user will be created')
         create_user(r['user_email'], r['user_age'],
                     r['heart_rate'], datetime.datetime.now())
 
@@ -72,6 +90,8 @@ def allHeartRate(user_email):
     """
     Returns the heart rate and times for specified user as JSON
     :param email: str email of the new user
+    :returns user_info_return: json with
+    user_email, heart_rate, date_time
     """
     import logging
     logging.basicConfig(filename="server_log.txt",
@@ -101,6 +121,8 @@ def averageHeartRate(user_email):
     """
     Returns the average heart rate and times for specified user as JSON
     :param email: str email of the new user
+    :returns user_info_return: json with
+    user_email, average_heart_rate, date_time_span
     """
     import logging
     logging.basicConfig(filename="server_log.txt",
@@ -134,6 +156,9 @@ def intervalAverage():
     Returns the average heart rate over a specified time for
     specified user as JSON
     :param email: str email of the new user
+    :returns user_info_return: json with
+    user_email, heart_rate_average_times, average_heart_rate,
+    Tachycardia
     """
     import logging
     logging.basicConfig(filename="server_log.txt",
