@@ -8,10 +8,82 @@ def get_info(email):
     """
     Gets heart_rate measurements from the user specified by email.
     :param email: str email of the user
+    :returns user: class instance indicating existing user data
     """
     # Get the first user where _id=email
     user = models.User.objects.raw({"_id": email}).first()
     return user
+
+
+def check_tachycardia(heart_rate_avg, age):
+    """
+    Checks if heart rate is Tachycardic
+    :param heart_rate_avg: average heart rate
+    :param age: user age
+    :returns tachycardia: Bool indicating tachycardia
+    """
+    if age <= 2/365:
+        if heart_rate_avg > 159:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 6/365:
+        if heart_rate_avg > 166:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 3/52:
+        if heart_rate_avg > 182:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 2/12:
+        if heart_rate_avg > 179:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 5/12:
+        if heart_rate_avg > 186:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 11/12:
+        if heart_rate_avg > 169:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 2:
+        if heart_rate_avg > 151:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 4:
+        if heart_rate_avg > 137:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 7:
+        if heart_rate_avg > 133:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 11:
+        if heart_rate_avg > 130:
+            tachycardia = True
+        else:
+            tachycardia = False
+    elif age <= 15:
+        if heart_rate_avg > 119:
+            tachycardia = True
+        else:
+            tachycardia = False
+    else:
+        if heart_rate_avg > 100:
+            tachycardia = True
+        else:
+            tachycardia = False
+
+    return tachycardia
 
 
 def add_heart_rate(email, heart_rate, time):
@@ -58,6 +130,7 @@ def print_user(email):
     print(user.email)
     print(user.heart_rate)
     print(user.heart_rate_times)
+    return user
 
 if __name__ == "__main__":
     # we should only do this once, otherwise will overwrite existing user

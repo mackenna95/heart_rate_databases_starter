@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import math
 from main import get_info, add_heart_rate, create_user, print_user
+from main import check_tachycardia
 import datetime
 import numpy
 from dateutil.parser import parse
@@ -15,6 +16,8 @@ def heart_rate():
     :param email: str email of the new user
     :param age: number age of the new user
     :param heart_rate: number initial heart_rate of this new user
+    :returns message: json indicating either
+    job complete, KeyError, TypeError
     """
 
     r = request.get_json()  # parses the POST request body as JSON
@@ -26,37 +29,53 @@ def heart_rate():
 
     try:
         if not isinstance(r['user_email'], str):
-            raise TypeError("TypeError: user_email is not a sting")
-            return 400
+            logging.debug('TypeError: user_email is not a string')
+            message = {
+                "TypeError": "User_email is not a string",
+            }
+            return jsonify(message), 400
     except KeyError:
         logging.debug('KeyError: incorrect user_email key')
-        raise KeyError("KeyError: incorrect user_email key")
-        return 400
+        message = {
+            "KeyError": "Incorrect user_email key",
+        }
+        return jsonify(message), 400
     try:
         if not isinstance(r['user_age'], int):
-            raise TypeError("TypeError: user_age is not a sting")
-            return 400
+            logging.debug('TypeError: user_age is not an int')
+            message = {
+                "TypeError": "User_age is not an int",
+            }
+            return jsonify(message), 400
     except KeyError:
         logging.debug('KeyError: incorrect user_age key')
-        raise KeyError("KeyError: incorrect user_age key")
-        return 400
+        message = {
+            "KeyError": "Incorrect user_age key",
+        }
+        return jsonify(message), 400
     try:
         if isinstance(r['heart_rate'], int):
             a = 1
         elif isinstance(r['heart_rate'], float):
             a = 1
         else:
-            raise TypeError("TypeError: heart_rate is not a sting")
-            return 400
+            logging.debug('TypeError: Heart_rate is not an int/float')
+            message = {
+                "TypeError": "Heart_rate is not an int or float",
+            }
+            return jsonify(message), 400
     except KeyError:
         logging.debug('KeyError: incorrect heart_rate key')
-        raise KeyError("KeyError: incorrect heart_rate key")
-        return 400
+        message = {
+            "KeyError": "Incorrect heart_rate key",
+        }
+        return jsonify(message), 400
 
     try:
         add_heart_rate(r['user_email'], r['heart_rate'],
                        datetime.datetime.now())
     except Exception:
+        logging.debug('ExceptionError: new user will be created')
         create_user(r['user_email'], r['user_age'],
                     r['heart_rate'], datetime.datetime.now())
 
@@ -71,6 +90,8 @@ def allHeartRate(user_email):
     """
     Returns the heart rate and times for specified user as JSON
     :param email: str email of the new user
+    :returns user_info_return: json with
+    user_email, heart_rate, date_time
     """
     import logging
     logging.basicConfig(filename="server_log.txt",
@@ -100,6 +121,8 @@ def averageHeartRate(user_email):
     """
     Returns the average heart rate and times for specified user as JSON
     :param email: str email of the new user
+    :returns user_info_return: json with
+    user_email, average_heart_rate, date_time_span
     """
     import logging
     logging.basicConfig(filename="server_log.txt",
@@ -133,6 +156,9 @@ def intervalAverage():
     Returns the average heart rate over a specified time for
     specified user as JSON
     :param email: str email of the new user
+    :returns user_info_return: json with
+    user_email, heart_rate_average_times, average_heart_rate,
+    Tachycardia
     """
     import logging
     logging.basicConfig(filename="server_log.txt",
@@ -171,67 +197,7 @@ def intervalAverage():
     heart_rate_avg = numpy.average([user_info.heart_rate[i] for i in inds])
     average_heart_rate_times = [user_info.heart_rate_times[i] for i in inds]
 
-    # Tachycardia
-    if user_info.age <= 2/365:
-        if heart_rate_avg > 159:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 6/365:
-        if heart_rate_avg > 166:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 3/52:
-        if heart_rate_avg > 182:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 2/12:
-        if heart_rate_avg > 179:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 5/12:
-        if heart_rate_avg > 186:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 11/12:
-        if heart_rate_avg > 169:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 2:
-        if heart_rate_avg > 151:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 4:
-        if heart_rate_avg > 137:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 7:
-        if heart_rate_avg > 133:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 11:
-        if heart_rate_avg > 130:
-            tachycardia = True
-        else:
-            tachycardia = False
-    elif user_info.age <= 15:
-        if heart_rate_avg > 119:
-            tachycardia = True
-        else:
-            tachycardia = False
-    else:
-        if heart_rate_avg > 100:
-            tachycardia = True
-        else:
-            tachycardia = False
+    tachycardia = check_tachycardia(heart_rate_avg, user_info.age)
 
     user_info_return = {
         "user_email": user_info.email,
