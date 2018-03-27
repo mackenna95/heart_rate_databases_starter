@@ -76,7 +76,7 @@ def allHeartRate(user_email):
                         format='%(asctime)s %(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
 
-    try: 
+    try:
         user_info = get_info(user_email)
     except Exception:
         logging.debug('Error: Ueser does not exist')
@@ -105,7 +105,7 @@ def averageHeartRate(user_email):
                         format='%(asctime)s %(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
 
-    try: 
+    try:
         user_info = get_info(user_email)
     except Exception:
         logging.debug('Error: Ueser does not exist')
@@ -120,7 +120,7 @@ def averageHeartRate(user_email):
     user_info_return = {
         "user_email": user_info.email,
         "average_heart_rate": heart_rate_avg,
-        "date_time_span": [user_info.heart_rate_times[0], 
+        "date_time_span": [user_info.heart_rate_times[0],
                            user_info.heart_rate_times[ind]],
     }
     return jsonify(user_info_return), 200
