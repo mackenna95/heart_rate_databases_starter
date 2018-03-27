@@ -144,9 +144,9 @@ def intervalAverage():
     try:
         user_time = parse(r['heart_rate_average_since'])
     except ValueError:
-        logging.debug('Incorrect data format, should be YYYY-MM-DD HH.MM.SS.')
+        logging.debug('Incorrect data format, YYYY-MM-DD HH.MM.SS.')
         message = {
-            "ValueError": "Incorrect data format, should be YYYY-MM-DD HH.MM.SS.",
+            "ValueError": "Incorrect data format, YYYY-MM-DD HH.MM.SS.",
         }
         return jsonify(message), 400
     except KeyError:
@@ -166,7 +166,8 @@ def intervalAverage():
         }
         return jsonify(message), 400
 
-    inds = [i for i, x in enumerate(user_info.heart_rate_times) if x >= user_time]
+    enum = user_info.heart_rate_times
+    inds = [i for i, x in enumerate(enum) if x >= user_time]
     heart_rate_avg = numpy.average([user_info.heart_rate[i] for i in inds])
     average_heart_rate_times = [user_info.heart_rate_times[i] for i in inds]
 
