@@ -4,13 +4,14 @@ import datetime
 connect("mongodb://localhost:27017/heart_rate_app")  # open up connection to db
 
 
-def get_info(email, heart_rate, time):
+def get_info(email):
     """
     Gets heart_rate measurements from the user specified by email.
     :param email: str email of the user
     """
     # Get the first user where _id=email
     user = models.User.objects.raw({"_id": email}).first()
+    return user
 
 
 def add_heart_rate(email, heart_rate, time):
