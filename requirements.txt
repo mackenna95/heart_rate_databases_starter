@@ -5,3 +5,4 @@ pytest-pep8
 pytest-cov
 numpy
 python-dateutil==2.7.2
+gunicorn
