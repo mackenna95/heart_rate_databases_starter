@@ -2,10 +2,12 @@ from flask import Flask, jsonify, request
 import math
 from main import get_info, add_heart_rate, create_user, print_user
 from main import check_tachycardia
+from flask_cors import CORS
 import datetime
 import numpy
 from dateutil.parser import parse
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/api/heart_rate", methods=["POST"])

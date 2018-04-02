@@ -6,3 +6,4 @@ pytest-cov
 numpy
 python-dateutil==2.7.2
 gunicorn
+flask-cors
